@@ -2,7 +2,7 @@ const postData = () => {
     // return fetch('http://localhost:3000/goods/25', {
     //     method: 'DELETE',
     // })
-    return fetch('https://serednitsky-test-default-rtdb.firebaseio.com/goods.json', {
+    return fetch('https://serednitsky-db-default-rtdb.firebaseio.com/goods.json', {
         method: 'POST',
         body: JSON.stringify({
             title: "Шрек 2 (PS 5)",
