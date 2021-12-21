@@ -82,6 +82,33 @@ const cart = () => {
     cartSendBtn.addEventListener('click', () => {
         const cart = localStorage.getItem('cart') ?
             JSON.parse(localStorage.getItem('cart')) : []
+
+        function pay() {
+            let widget = new cp.CloudPayments()
+            widget.pay('charge', // или 'charge'
+                { //options
+                    publicId: 'pk_65488615a4df38271f3d76864b740', //id из личного кабинета
+                    description: 'Покупка в магазине O-ZONE', //назначение
+                    amount: cart.reduce((sum, goodItem) => {
+                        return sum + goodItem.price
+                    }, 0), //сумма
+                    currency: 'RUB', //валюта
+                    skin: 'modern'
+                }, {
+                    onSuccess: function(options) { // success
+                        //действие при успешной оплате
+                    },
+                    onFail: function(reason, options) { // fail
+                        //действие при неуспешной оплате
+                    },
+                    onComplete: function(paymentResult, options) {
+                        //например вызов вашей аналитики Facebook Pixel
+                    }
+                }
+            )
+        }
+        pay()
+
         postData(cart).then(() => {
             localStorage.removeItem('cart')
             renderCart([])
